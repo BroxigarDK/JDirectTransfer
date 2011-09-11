@@ -1,0 +1,24 @@
+This is the readme for the JDirectTransfer project.
+
+Requirements:
+Java Runtime Enviroment 1.6 or above
+
+Purpose: 
+To easy the process of transfering one or multiple files between two computers on the internet, without using servers or uploading sites such as Rapidshare.com or MegaUpload.com 
+
+How it works:
+Upon launch, the program establishes a ServerSocket that accepts incomming connections on port 4444 (May be changed in the future)
+The program is set up with a unique id (email-adress) and a recovery password the first time it is used. This is stored in a database at www.alsa-data.dk
+The program generates a randomized 8-ciffer password each time it is launched. This is not stored anywhere.
+
+When an incomming connection connects to the ServerSocket, an integer is parsed to the program from the remote user, and is being compared to the generated password.
+* If the two integers doesn't compare, the connection is dropped
+* If the two integers are the same, the connection is accepted and awaits the further process.
+
+When the connection has been accepted, the server sends a signal back to the client that it has been accepted. From here on, the client will send:
+* Filename(s)
+* File size(s)
+
+After this, the Server will go into a state of receiving files, and the client will send a start signal with name and size, send the file bytewise and then send a terminal signal.
+The server then stores the file in the default download-folder on the server and sends an all-clear signal  on which the client sends the next file, or terminates the connection.
+
